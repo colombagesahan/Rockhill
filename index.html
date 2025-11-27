@@ -1,0 +1,1205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rockhill Reception Hall & Caterers</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="favicon.png" type="image/png">
+    
+    <!-- Google Fonts for Elegant Wedding Look -->
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        /* --- CSS VARIABLES & RESET --- */
+        :root {
+            --primary-gold: #D4AF37; /* Elegant Gold */
+            --dark-bg: #1a1a1a;
+            --light-bg: #f9f9f9;
+            --text-dark: #333;
+            --text-light: #fff;
+            --font-script: 'Great Vibes', cursive;
+            --font-heading: 'Playfair Display', serif;
+            --font-body: 'Poppins', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--font-body); background-color: var(--light-bg); overflow-x: hidden; }
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        ul { list-style: none; }
+        img { max-width: 100%; display: block; }
+
+        /* --- WELCOME SCREEN --- */
+        #welcome-screen {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: url('bac01.png') no-repeat center center/cover;
+            /* Removed dark overlay */
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        
+        .welcome-logo { 
+            width: 150px; 
+            margin-bottom: 20px; 
+            border-radius: 50%; /* Make it circular */
+            border: 5px solid var(--primary-gold); /* Gold outline */
+            animation: zoomIn 2s ease-out forwards; /* Zooming animation */
+        }
+        @keyframes zoomIn {
+            from { transform: scale(0.5); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .typing-text {
+            font-family: var(--font-script);
+            font-size: 3rem;
+            color: var(--primary-gold);
+            min-height: 60px;
+            font-weight: 700; /* Increased font weight */
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.5); /* Added for better readability on light bg */
+        }
+        /* Cursor animation */
+        .cursor { border-right: 2px solid var(--primary-gold); animation: blink 0.7s infinite; }
+        @keyframes blink { 50% { border-color: transparent; } }
+        /* Removed fadeIn from welcome logo, zoomIn handles it */
+
+        /* --- NAVIGATION --- */
+        header {
+            background: #fff;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed; top: 0; width: 100%; z-index: 1000;
+            transform: translateY(0);
+            transition: transform 0.3s ease-in-out; 
+        }
+        header.hidden {
+            transform: translateY(-100%);
+        }
+        .nav-logo { width: 200px; margin: 0 auto 10px; }
+        .brand-name {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            color: var(--dark-bg);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700; /* Increased font weight */
+        }
+        .nav-links { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; }
+        .nav-links a {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            font-weight: 600;
+            color: #555;
+        }
+        .nav-links a:hover { color: var(--primary-gold); }
+
+        /* NAV CLOSE BUTTON STYLE */
+        .nav-close-btn {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            background: transparent;
+            border: 2px solid #ddd;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            font-size: 20px;
+            line-height: 26px; /* Center the X vertically */
+            color: #555;
+            cursor: pointer;
+            transition: 0.3s;
+            display: block;
+        }
+        .nav-close-btn:hover {
+            border-color: var(--primary-gold);
+            color: var(--primary-gold);
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            position: relative;
+            height: 100vh; /* Full viewport height */
+            width: 100%;
+            overflow: hidden;
+            /* margin-top will be dynamically removed by JS */
+        }
+        .hero-slider img {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Ensures image fits desktop and 320px mobile */
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+        }
+        .hero-slider img.active { opacity: 1; }
+        
+        .hero-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.4);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: #fff;
+            padding: 20px;
+            /* Added padding-top to push text down below the Nav Bar */
+            padding-top: 220px; 
+        }
+        .hero-overlay h1 {
+            font-family: var(--font-script);
+            font-size: 4rem;
+            color: var(--primary-gold);
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        .hero-overlay p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+        .btn-gold {
+            background: var(--primary-gold);
+            color: #fff;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-weight: 600;
+            text-transform: uppercase;
+            border: 2px solid var(--primary-gold);
+        }
+        .btn-gold:hover { background: transparent; }
+
+        /* --- SERVICES / CARDS --- */
+        .section-padding { padding: 80px 20px; }
+        .section-title {
+            text-align: center;
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            color: var(--dark-bg);
+        }
+        .section-title span { color: var(--primary-gold); font-family: var(--font-script); display: block; font-size: 3rem; margin-bottom: -10px;}
+
+        .card-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .card {
+            background: #fff;
+            width: 350px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+        .card:hover { transform: translateY(-10px); }
+        .card img { width: 100%; height: 250px; object-fit: cover; }
+        .card-content { 
+            padding: 25px; text-align: center; 
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+        .card-content h3 { font-family: var(--font-heading); margin-bottom: 15px; color: var(--primary-gold); }
+        .card-content p { color: #666; font-size: 0.95rem; line-height: 1.6; margin-bottom: 20px; flex-grow: 1;}
+        .card-content .btn-secondary {
+            display: inline-block;
+            background: #eee;
+            color: var(--dark-bg);
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border: 1px solid #ddd;
+        }
+        .card-content .btn-secondary:hover {
+            background: var(--primary-gold);
+            color: #fff;
+            border-color: var(--primary-gold);
+        }
+
+        /* --- REVIEWS --- */
+        .reviews-section { background: #f0f0f0; }
+        .review-grid {
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            justify-content: center; gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .review-box {
+            background: #fff; padding: 25px; border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05); text-align: center;
+            display: flex; flex-direction: column; align-items: center;
+        }
+        .review-box img {
+            width: 80px; height: 80px; border-radius: 50%; object-fit: cover;
+            margin-bottom: 15px; border: 3px solid var(--primary-gold);
+        }
+        .stars { color: var(--primary-gold); margin-bottom: 10px; font-size: 1.1rem; }
+        .review-box p { color: #555; font-style: italic; margin-bottom: 15px; flex-grow: 1; }
+        .review-box h4 { color: var(--dark-bg); font-weight: 600; font-size: 1rem; }
+        .google-link { display: block; text-align: center; margin-top: 30px; color: var(--primary-gold); font-weight: bold;}
+
+        /* --- GALLERIES --- */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .gallery-grid img, .gallery-grid video {
+            width: 100%; height: 250px; object-fit: cover; border-radius: 5px; cursor: pointer; transition: 0.3s;
+        }
+        .gallery-grid img:hover { filter: brightness(0.8); }
+
+        /* --- WEDDING PACKAGES --- */
+        .packages-section { 
+            background: url('bac02.png') no-repeat center center/cover; /* New background image */
+            color: var(--text-light); 
+            position: relative;
+        }
+        /* Dark overlay for package section */
+        .packages-section::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.6); z-index: 1;
+        }
+        .packages-section .section-title, .packages-grid {
+            position: relative;
+            z-index: 2; /* Bring content above overlay */
+        }
+
+        .packages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .package-card {
+            background: rgba(42, 42, 42, 0.9); /* Slightly transparent dark background */
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            border-top: 5px solid var(--primary-gold);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .package-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            color: var(--primary-gold);
+            margin-bottom: 15px;
+        }
+        .package-card .price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-light);
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .package-card .price small {
+            font-size: 1.2rem;
+            font-weight: 300;
+            color: #ccc;
+        }
+        .package-card .guests {
+            font-size: 1.1rem;
+            color: #fff;
+            margin-top: 5px;
+            font-weight: 600;
+        }
+        .package-card ul {
+            text-align: left;
+            margin-bottom: 30px;
+            padding: 0 20px;
+            flex-grow: 1;
+        }
+        .package-card ul li {
+            margin-bottom: 10px;
+            color: #ccc;
+            line-height: 1.6;
+            display: flex;
+            align-items: flex-start;
+        }
+        .package-card ul li i {
+            color: var(--primary-gold);
+            margin-right: 10px;
+            margin-top: 5px;
+        }
+        .package-card .btn-gold {
+            width: 80%;
+            margin: 0 auto;
+            display: block;
+        }
+
+        /* --- BOOKING FORM (WhatsApp) --- */
+        .booking-section {
+            background: url('bac01.png') fixed center/cover;
+            position: relative;
+        }
+        .booking-section::before {
+            content: ''; position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.8);
+        }
+        .booking-form {
+            position: relative;
+            background: #fff;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 40px;
+            border-radius: 8px;
+            z-index: 2;
+        }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 5px; font-family: var(--font-body);
+        }
+        .btn-whatsapp {
+            background: #25D366; color: #fff; width: 100%; border: none; padding: 15px;
+            font-size: 1rem; font-weight: bold; border-radius: 5px; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 10px;
+        }
+        .btn-whatsapp:hover { background: #128C7E; }
+
+        /* --- CONTACT & FOOTER --- */
+        .contact-info { text-align: center; margin-bottom: 30px; }
+        .contact-info p { margin: 10px 0; font-size: 1.1rem; }
+        .contact-info i { color: var(--primary-gold); margin-right: 10px; }
+        
+        .map-container {
+            max-width: 1200px;
+            margin: 0 auto 50px auto;
+            background: #fff;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        .map-container iframe {
+            width: 100%;
+            height: 400px;
+            border: 0;
+            border-radius: 5px;
+        }
+
+        footer {
+            background: var(--dark-bg);
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        /* --- FLOATING BUTTONS --- */
+        .floating-buttons-right {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px; /* Spacing between buttons */
+            z-index: 1000;
+        }
+        .floating-buttons-left {
+            position: fixed;
+            bottom: 40px;
+            left: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px; /* Spacing between buttons */
+            z-index: 1000;
+        }
+
+        .floating-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            text-align: center;
+            font-size: 30px;
+            color: #FFF;
+            box-shadow: 2px 2px 3px #999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.2s ease-in-out;
+        }
+        .floating-btn:hover {
+            transform: scale(1.1);
+        }
+        .whatsapp-btn { background-color: #25D366; }
+        .whatsapp-btn:hover { background-color: #128C7E; }
+        .share-btn { background-color: #007bff; /* Blue for share */ }
+        .share-btn:hover { background-color: #0056b3; }
+        .facebook-btn { background-color: #3b5998; }
+        .facebook-btn:hover { background-color: #2f477a; }
+        .youtube-btn { background-color: #FF0000; }
+        .youtube-btn:hover { background-color: #cc0000; }
+        .instagram-btn { background-color: #C13584; }
+        .instagram-btn:hover { background-color: #9f2a6d; }
+        .tiktok-btn { background-color: #000; } /* TikTok's main color is black */
+        .tiktok-btn:hover { background-color: #333; }
+
+
+        /* --- MODAL STYLES --- */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 10000; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0,0,0,0.6); /* Black w/ opacity */
+            justify-content: center;
+            align-items: center;
+            animation: fadeInModal 0.3s ease-out;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 30px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+            position: relative;
+            animation: slideInModal 0.3s ease-out;
+        }
+
+        .close-button {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            position: absolute;
+            top: 10px;
+            right: 20px;
+        }
+
+        .close-button:hover,
+        .close-button:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .modal h2 {
+            font-family: var(--font-heading);
+            color: var(--dark-bg);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .modal .form-group {
+            margin-bottom: 15px;
+        }
+        .modal .form-group label {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        .modal .form-group input,
+        .modal .form-group select,
+        .modal .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: var(--font-body);
+        }
+        .modal button.btn-whatsapp {
+            margin-top: 20px;
+        }
+
+        .share-options {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        .share-options a {
+            font-size: 1.1rem;
+            padding: 10px 15px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: white;
+            transition: background-color 0.2s ease;
+        }
+        .share-options .share-facebook { background-color: #3b5998; }
+        .share-options .share-facebook:hover { background-color: #2f477a; }
+        .share-options .share-twitter { background-color: #1da1f2; }
+        .share-options .share-twitter:hover { background-color: #0c85d0; }
+        .share-options .share-whatsapp { background-color: #25D366; }
+        .share-options .share-whatsapp:hover { background-color: #128C7E; }
+        .share-options .share-email { background-color: #dd4b39; }
+        .share-options .share-email:hover { background-color: #c23321; }
+        .share-options .share-copy-link { background-color: #6c757d; }
+        .share-options .share-copy-link:hover { background-color: #5a6268; }
+
+        @keyframes fadeInModal {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideInModal {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* --- RESPONSIVE MEDIA QUERIES --- */
+        @media (max-width: 768px) {
+            .hero-overlay h1 { font-size: 2.5rem; }
+            .welcome-logo { width: 100px; }
+            .typing-text { font-size: 2rem; }
+            .nav-links { gap: 15px; }
+            .card { width: 100%; }
+            
+            .floating-buttons-right, .floating-buttons-left {
+                bottom: 20px;
+                left: 20px;
+                right: 20px;
+                gap: 10px;
+            }
+            .floating-buttons-right { align-items: flex-end; }
+            .floating-buttons-left { align-items: flex-start; }
+
+            .floating-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 25px;
+            }
+            .hero {
+                margin-top: 0; /* Header is hidden, so hero fits */
+            }
+            .modal-content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. WELCOME SCREEN -->
+    <div id="welcome-screen">
+        <img src="logo.png" alt="Rockhill Logo" class="welcome-logo">
+        <div class="typing-container">
+            <span class="typing-text" id="typewriter"></span><span class="cursor"></span>
+        </div>
+    </div>
+
+    <!-- 2. HEADER & NAV -->
+    <header id="main-header" style="display: none;">
+        <!-- Close Button added here -->
+        <button class="nav-close-btn" id="close-nav-btn">&times;</button>
+        
+        <img src="logo01.png" alt="Logo" class="nav-logo">
+        <div class="brand-name">Rockhill Reception Hall & Caterers</div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#packages">Packages</a></li>
+                <li><a href="#reviews">Reviews</a></li>
+                <li><a href="#gallery">Gallery</a></li>
+                <li><a href="#booking">Book Now</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- 3. HERO SECTION -->
+    <section id="home" class="hero" style="display: none;">
+        <div class="hero-slider">
+            <!-- Images will auto change -->
+            <img src="1.png" class="active" alt="Wedding Setup">
+            <img src="2.png" alt="Banquet Hall">
+            <img src="3.png" alt="Catering">
+            <img src="4.png" alt="Decorations">
+            <img src="5.png" alt="Lighting">
+        </div>
+        <div class="hero-overlay">
+            <h1>Making Your Dream Event a Reality</h1>
+            <p>Experience elegance, luxury, and world-class service at Rockhill.</p>
+            <a href="#booking" class="btn-gold">Plan Your Event</a>
+        </div>
+    </section>
+
+    <!-- 4. SERVICES CARDS -->
+    <section id="services" class="section-padding" style="display: none;">
+        <div class="section-title">
+            <span>Our Services</span>
+            What We Offer
+        </div>
+        <div class="card-container">
+            <!-- Card 01 -->
+            <div class="card">
+                <img src="card01.png" alt="Banquet Hall">
+                <div class="card-content">
+                    <h3>Banquet Hall</h3>
+                    <p>Our spacious, fully air-conditioned banquet hall features crystal chandeliers and elegant decor, perfect for grand weddings and homecomings.</p>
+                    <a href="hall.html" class="btn-secondary">View Hall</a>
+                </div>
+            </div>
+            <!-- Card 02 -->
+            <div class="card">
+                <img src="card02.png" alt="Accommodation">
+                <div class="card-content">
+                    <h3>Accommodation</h3>
+                    <p>Relax in luxury. We offer comfortable rooms for the bridal party and guests, ensuring a stress-free and memorable stay.</p>
+                    <a href="rooms.html" class="btn-secondary">View Rooms</a>
+                </div>
+            </div>
+            <!-- Card 03 -->
+            <div class="card">
+                <img src="card03.png" alt="Events">
+                <div class="card-content">
+                    <h3>Events & Parties</h3>
+                    <p>From birthday bashes to corporate gatherings, our catering and event team handles every detail to perfection.</p>
+                    <a href="details.html" class="btn-secondary">View Details</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. WEDDING PACKAGES -->
+    <section id="packages" class="section-padding packages-section" style="display: none;">
+        <div class="section-title" style="color: var(--text-light);">
+            <span>Our Wedding</span>
+            Packages
+        </div>
+        <div class="packages-grid">
+            <!-- Gold Package -->
+            <div class="package-card">
+                <h3>Gold Package</h3>
+                <div class="price">
+                    Rs. 2950 <small>/ per plate</small>
+                    <span class="guests">For 250 Visitors</span>
+                </div>
+                <ul>
+                    <li><i class="fas fa-check-circle"></i> Buffet Menu</li>
+                    <li><i class="fas fa-check-circle"></i> Wes Dancing Team (5 Members)</li>
+                    <li><i class="fas fa-check-circle"></i> Jayamangala Team</li>
+                    <li><i class="fas fa-check-circle"></i> Welcoming Song</li>
+                    <li><i class="fas fa-check-circle"></i> Ashtaka</li>
+                    <li><i class="fas fa-check-circle"></i> Shashrika Table</li>
+                    <li><i class="fas fa-check-circle"></i> Milk Fountain</li>
+                    <li><i class="fas fa-check-circle"></i> Poruwa</li>
+                    <li><i class="fas fa-check-circle"></i> Setteback</li>
+                    <li><i class="fas fa-check-circle"></i> Entrance Decos</li>
+                    <li><i class="fas fa-check-circle"></i> Table Deco</li>
+                    <li><i class="fas fa-check-circle"></i> Oil Lamp</li>
+                    <li><i class="fas fa-check-circle"></i> Head Table Decor</li>
+                    <li><i class="fas fa-check-circle"></i> DJ with Light, Smoke</li>
+                    <li><i class="fas fa-check-circle"></i> Photo Location</li>
+                    <li><i class="fas fa-check-circle"></i> Changing Rooms</li>
+                    <li><i class="fas fa-check-circle"></i> A/C Hall (7 Hours Free)</li>
+                    <li><i class="fas fa-check-circle"></i> Full Day Event Coordination Free</li>
+                </ul>
+                <button class="btn-gold" onclick="openPackageModal('Gold Package', 2950, 250)">More Details</button>
+            </div>
+            <!-- Silver Package -->
+            <div class="package-card">
+                <h3>Silver Package</h3>
+                <div class="price">
+                    Rs. 3050 <small>/ per plate</small>
+                    <span class="guests">For 200 Visitors</span>
+                </div>
+                <ul>
+                    <li><i class="fas fa-check-circle"></i> Buffet Menu</li>
+                    <li><i class="fas fa-check-circle"></i> Wes Dancing Team (5 Members)</li>
+                    <li><i class="fas fa-check-circle"></i> Jayamangala Team</li>
+                    <li><i class="fas fa-check-circle"></i> Welcoming Song</li>
+                    <li><i class="fas fa-check-circle"></i> Ashtaka</li>
+                    <li><i class="fas fa-check-circle"></i> Shashrika Table</li>
+                    <li><i class="fas fa-check-circle"></i> Milk Fountain</li>
+                    <li><i class="fas fa-check-circle"></i> Poruwa</li>
+                    <li><i class="fas fa-check-circle"></i> Setteback</li>
+                    <li><i class="fas fa-check-circle"></i> Entrance Decos</li>
+                    <li><i class="fas fa-check-circle"></i> Table Deco</li>
+                    <li><i class="fas fa-check-circle"></i> Oil Lamp</li>
+                    <li><i class="fas fa-check-circle"></i> Head Table Decor</li>
+                    <li><i class="fas fa-check-circle"></i> DJ with Light, Smoke</li>
+                    <li><i class="fas fa-check-circle"></i> Photo Location</li>
+                    <li><i class="fas fa-check-circle"></i> Changing Rooms</li>
+                    <li><i class="fas fa-check-circle"></i> A/C Hall (7 Hours Free)</li>
+                    <li><i class="fas fa-check-circle"></i> Full Day Event Coordination Free</li>
+                </ul>
+                <button class="btn-gold" onclick="openPackageModal('Silver Package', 3050, 200)">More Details</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. REVIEWS SECTION -->
+    <section id="reviews" class="section-padding reviews-section" style="display: none;">
+        <h2 class="section-title">Customer Reviews</h2>
+        <div class="review-grid">
+            <div class="review-box">
+                <img src="r1.png" alt="Reviewer Photo 1">
+                <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <p>"An amazing place for a wedding! The food was delicious and the staff was incredibly supportive."</p>
+                <h4>- Dilshan P.</h4>
+            </div>
+            <div class="review-box">
+                <img src="r2.png" alt="Reviewer Photo 2">
+                <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <p>"Beautiful hall and great location. Highly recommend Rockhill for any function."</p>
+                <h4>- Ashini K.</h4>
+            </div>
+            <div class="review-box">
+                <img src="r3.png" alt="Reviewer Photo 3">
+                <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div>
+                <p>"Excellent service. The manager helped us with everything. 5 stars!"</p>
+                <h4>- Kamal S.</h4>
+            </div>
+            <div class="review-box">
+                <img src="r4.png" alt="Reviewer Photo 4">
+                <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <p>"The best venue for our homecoming! Everything was perfect, especially the decorations."</p>
+                <h4>- Nimali R.</h4>
+            </div>
+            <div class="review-box">
+                <img src="r5.png" alt="Reviewer Photo 5">
+                <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></div>
+                <p>"Good value for money. The catering was superb and the staff were very friendly."</p>
+                <h4>- Susantha F.</h4>
+            </div>
+            <div class="review-box">
+                <img src="r6.png" alt="Reviewer Photo 6">
+                <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <p>"Our corporate event was a huge success, thanks to the team at Rockhill. Flawless execution."</p>
+                <h4>- Senanayake Group</h4>
+            </div>
+            <div class="review-box">
+                <img src="r7.png" alt="Reviewer Photo 7">
+                <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div>
+                <p>"The rooms were very comfortable and clean. Great place to stay for guests."</p>
+                <h4>- Priyanthi L.</h4>
+            </div>
+            <div class="review-box">
+                <img src="r8.png" alt="Reviewer Photo 8">
+                <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <p>"Highly recommend! They went above and beyond to make our special day memorable."</p>
+                <h4>- Suresh A.</h4>
+            </div>
+            <div class="review-box">
+                <img src="r9.png" alt="Reviewer Photo 9">
+                <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></div>
+                <p>"The banquet hall itself is stunning. A perfect backdrop for beautiful photos."</p>
+                <h4>- Thilini M.</h4>
+            </div>
+            <div class="review-box">
+                <img src="r10.png" alt="Reviewer Photo 10">
+                <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <p>"Rockhill delivered beyond our expectations. Truly a five-star experience from start to finish."</p>
+                <h4>- The Perera Family</h4>
+            </div>
+        </div>
+        <a href="https://www.google.com/travel/search?g2lb=4965990,72317059,72414906,72471280,72485658,72560029,72573224,72647020,72686036,72803964,72882230,72958624,73059275,73064764,73107089,73157411,73192290,73201205&hl=en-LK&gl=lk&ssta=1&q=Rockhill+Reception+Hall+%26+Catering&ts=CAEaKwopEicyJTB4M2FlMjUzZDdkNzdkZWJhNzoweGZkNjIxYTVjNDZlZDliNTY&qs=CAEyFENnc0kxcmEydDhUTGhySDlBUkFCOAI&ap=ugEHcmV2aWV3cw&ictx=111&ved=1t:1250" target="_blank" class="google-link">Read All Google Reviews <i class="fas fa-external-link-alt"></i></a>
+    </section>
+
+    <!-- 7. GALLERIES -->
+    <section id="gallery" class="section-padding" style="display: none;">
+        <h2 class="section-title">Photo Gallery</h2>
+        <div class="gallery-grid">
+            <img src="1.png" alt="Gallery 1">
+            <img src="2.png" alt="Gallery 2">
+            <img src="3.png" alt="Gallery 3">
+            <img src="4.png" alt="Gallery 4">
+        </div>
+
+        <h2 class="section-title" style="margin-top: 50px;">Video Highlights</h2>
+        <div class="gallery-grid">
+            <video controls src="1.mp4"></video>
+            <video controls src="2.mp4"></video>
+            <video controls src="3.mp4"></video>
+            <video controls src="4.mp4"></video>
+            <video controls src="5.mp4"></video>
+        </div>
+    </section>
+
+    <!-- 8. BOOKING & CONTACT -->
+    <section id="booking" class="section-padding booking-section" style="display: none;">
+        <div class="section-title" style="color: white; z-index: 2; position: relative;">
+            <span style="color: var(--primary-gold);">Reservations</span>
+            Book Your Date
+        </div>
+
+        <div class="booking-form">
+            <div class="form-group">
+                <label>Your Name</label>
+                <input type="text" id="custName" placeholder="Enter your name">
+            </div>
+            <div class="form-group">
+                <label>Phone Number</label>
+                <input type="tel" id="custPhone" placeholder="07x xxxx xxx">
+            </div>
+            <div class="form-group">
+                <label>Event Type</label>
+                <select id="eventType">
+                    <option value="Wedding">Wedding</option>
+                    <option value="Homecoming">Homecoming</option>
+                    <option value="Birthday">Birthday</option>
+                    <option value="Corporate">Corporate Event</option>
+                    <option value="Room Booking">Room Booking</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Date</label>
+                <input type="date" id="eventDate">
+            </div>
+            <div class="form-group">
+                <label>Message / Guests</label>
+                <textarea id="custMsg" rows="3" placeholder="Approx number of guests..."></textarea>
+            </div>
+            <button onclick="sendToWhatsapp()" class="btn-whatsapp">
+                <i class="fab fa-whatsapp"></i> Send Inquiry on WhatsApp
+            </button>
+        </div>
+    </section>
+
+    <!-- 9. CONTACT & FOOTER -->
+    <section id="contact" class="section-padding" style="display: none; background: #fff;">
+        <h2 class="section-title">Contact Us</h2>
+        <div class="contact-info">
+            <p><i class="fas fa-map-marker-alt"></i> Mullegama, No 1/3 Sri Seelalankara Mawatha, 10202</p>
+            <p><i class="fas fa-phone-alt"></i> 070 500 0090</p>
+        </div>
+        <div class="map-container">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.999600100781!2d80.0573932742917!3d6.890637493106295!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae253d7d7deba77%3A0xfd621a5c46ed9b56!2sRockhill%20Reception%20Hall%20%26%20Catering!5e0!3m2!1sen!2slk!4v1701390467771!5m2!1sen!2slk" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+    </section>
+
+    <footer id="main-footer" style="display: none;">
+        <p>&copy; 2023 Rockhill Reception Hall & Caterers. All Rights Reserved.</p>
+    </footer>
+
+    <!-- FLOATING BUTTONS -->
+    <div class="floating-buttons-right">
+        <!-- WhatsApp Floating Button -->
+        <a href="https://wa.me/94705000090" class="floating-btn whatsapp-btn" target="_blank">
+            <i class="fab fa-whatsapp"></i>
+        </a>
+        <!-- Share Floating Button -->
+        <button class="floating-btn share-btn" onclick="openShareModal()">
+            <i class="fas fa-share-alt"></i>
+        </button>
+    </div>
+
+    <div class="floating-buttons-left">
+        <!-- Facebook Floating Button -->
+        <a href="#" class="floating-btn facebook-btn" target="_blank">
+            <i class="fab fa-facebook-f"></i>
+        </a>
+        <!-- YouTube Floating Button -->
+        <a href="#" class="floating-btn youtube-btn" target="_blank">
+            <i class="fab fa-youtube"></i>
+        </a>
+        <!-- Instagram Floating Button -->
+        <a href="#" class="floating-btn instagram-btn" target="_blank">
+            <i class="fab fa-instagram"></i>
+        </a>
+        <!-- TikTok Floating Button -->
+        <a href="#" class="floating-btn tiktok-btn" target="_blank">
+            <i class="fab fa-tiktok"></i>
+        </a>
+    </div>
+
+    <!-- PACKAGE DETAILS MODAL -->
+    <div id="packageModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closePackageModal()">&times;</span>
+            <h2 id="modalPackageTitle"></h2>
+            <div class="form-group">
+                <label>Selected Package:</label>
+                <input type="text" id="modalPackageName" readonly>
+            </div>
+            <div class="form-group">
+                <label>Price Per Plate:</label>
+                <input type="text" id="modalPackagePrice" readonly>
+            </div>
+            <div class="form-group">
+                <label>Number of Guests:</label>
+                <input type="text" id="modalPackageGuests" readonly>
+            </div>
+            <div class="form-group">
+                <label>Your Name</label>
+                <input type="text" id="modalCustName" placeholder="Enter your name">
+            </div>
+            <div class="form-group">
+                <label>Phone Number</label>
+                <input type="tel" id="modalCustPhone" placeholder="07x xxxx xxx">
+            </div>
+            <div class="form-group">
+                <label>Event Date</label>
+                <input type="date" id="modalEventDate">
+            </div>
+            <button onclick="sendPackageInquiry()" class="btn-whatsapp">
+                <i class="fab fa-whatsapp"></i> Send Inquiry on WhatsApp
+            </button>
+        </div>
+    </div>
+
+    <!-- SHARE MODAL -->
+    <div id="shareModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeShareModal()">&times;</span>
+            <h2>Share This Website</h2>
+            <p style="text-align: center; color: #555;">Spread the word about Rockhill Reception Hall!</p>
+            <div class="share-options">
+                <a href="#" class="share-facebook" onclick="sharePage('facebook')"><i class="fab fa-facebook-f"></i> Facebook</a>
+                <a href="#" class="share-twitter" onclick="sharePage('twitter')"><i class="fab fa-twitter"></i> Twitter</a>
+                <a href="#" class="share-whatsapp" onclick="sharePage('whatsapp')"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+                <a href="#" class="share-email" onclick="sharePage('email')"><i class="fas fa-envelope"></i> Email</a>
+                <a href="#" class="share-copy-link" onclick="sharePage('copy')"><i class="fas fa-link"></i> Copy Link</a>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // 1. TYPING ANIMATION
+        const textToType = "Welcome to Rockhill Reception Hall";
+        const typeWriterElement = document.getElementById('typewriter');
+        let i = 0;
+
+        function typeWriter() {
+            if (i < textToType.length) {
+                typeWriterElement.innerHTML += textToType.charAt(i);
+                i++;
+                setTimeout(typeWriter, 100); // Typing speed
+            } else {
+                // Animation Finished - Wait 1s then show site
+                setTimeout(showWebsite, 1500);
+            }
+        }
+
+        // Variable to track if the initial auto-hide has happened
+        let initialHidePerformed = false;
+        const header = document.getElementById('main-header');
+        const heroSection = document.getElementById('home');
+        const navCloseBtn = document.getElementById('close-nav-btn');
+
+        // 2. SHOW WEBSITE & HIDE WELCOME
+        function showWebsite() {
+            const welcomeScreen = document.getElementById('welcome-screen');
+            const mainElements = ['main-header', 'home', 'services', 'packages', 'reviews', 'gallery', 'booking', 'contact', 'main-footer'];
+            
+            welcomeScreen.style.transition = 'opacity 1s ease';
+            welcomeScreen.style.opacity = '0';
+            
+            setTimeout(() => {
+                welcomeScreen.style.display = 'none';
+                mainElements.forEach(id => {
+                    const el = document.getElementById(id);
+                    if(el) {
+                        el.style.display = 'block'; // All main sections should display block now
+                    }
+                });
+                document.getElementById('home').style.marginTop = '0'; // Ensure hero fits
+                
+                // AUTO HIDE NAV BAR AFTER 0.2 SECONDS (Only once)
+                setTimeout(() => {
+                    if (!initialHidePerformed) {
+                        header.classList.add('hidden');
+                        initialHidePerformed = true;
+                    }
+                }, 3500);
+
+            }, 1000);
+        }
+
+        // Start typing on load
+        window.onload = function() {
+            typeWriter();
+        };
+
+        // 3. HERO SLIDER LOGIC
+        let slideIndex = 0;
+        const slides = document.querySelectorAll('.hero-slider img');
+
+        function changeSlide() {
+            if(slides.length === 0) return;
+            
+            slides.forEach(img => img.classList.remove('active'));
+            slideIndex++;
+            if (slideIndex > slides.length) { slideIndex = 1 }
+            
+            slides[slideIndex - 1].classList.add('active');
+            setTimeout(changeSlide, 4000); // Change image every 4 seconds
+        }
+        
+        // Start slider slightly delayed so it doesn't conflict with welcome screen logic
+        setTimeout(changeSlide, 100); 
+
+        // 4. WHATSAPP FORM LOGIC (General Inquiry)
+        function sendToWhatsapp() {
+            const name = document.getElementById('custName').value;
+            const phone = document.getElementById('custPhone').value;
+            const type = document.getElementById('eventType').value;
+            const date = document.getElementById('eventDate').value;
+            const msg = document.getElementById('custMsg').value;
+
+            if(!name || !phone) {
+                alert("Please fill in Name and Phone Number");
+                return;
+            }
+
+            const whatsappMessage = `*New Booking Inquiry*%0A%0A*Name:* ${name}%0A*Phone:* ${phone}%0A*Event:* ${type}%0A*Date:* ${date}%0A*Details:* ${msg}`;
+            
+            // Sri Lanka Code +94, removing leading 0 from 070...
+            let formattedPhone = "94705000090"; 
+            
+            const url = `https://wa.me/${formattedPhone}?text=${whatsappMessage}`;
+            window.open(url, '_blank');
+        }
+
+        // 5. NAV BAR SCROLL LOGIC & CLOSE BUTTON
+        let lastScrollY = 0;
+
+        window.addEventListener('scroll', () => {
+            // Check if user is at the very top
+            if (window.scrollY === 0) {
+                header.classList.remove('hidden'); // Always show at top
+            } else if (window.scrollY > lastScrollY && window.scrollY > 10) { 
+                // Scrolled down
+                header.classList.add('hidden');
+            } 
+            // Note: We do not auto-show on scroll up (unless hitting top) based on "if user scorll down and again scorll top do not hide nav bar auto" 
+            // Interpreting requirement: User goes top -> show. User scrolls down -> hide. 
+            // If user scrolls up but NOT to top, standard behavior is usually show, but if you want strict "only top", the above works.
+            
+            lastScrollY = window.scrollY;
+        });
+
+        // Manual Close Button Logic
+        if(navCloseBtn) {
+            navCloseBtn.addEventListener('click', () => {
+                header.classList.add('hidden');
+            });
+        }
+
+        // 6. PACKAGE MODAL LOGIC
+        const packageModal = document.getElementById('packageModal');
+        const modalPackageTitle = document.getElementById('modalPackageTitle');
+        const modalPackageName = document.getElementById('modalPackageName');
+        const modalPackagePrice = document.getElementById('modalPackagePrice');
+        const modalPackageGuests = document.getElementById('modalPackageGuests');
+        const modalCustName = document.getElementById('modalCustName');
+        const modalCustPhone = document.getElementById('modalCustPhone');
+        const modalEventDate = document.getElementById('modalEventDate');
+
+        function openPackageModal(packageName, price, guests) {
+            modalPackageTitle.textContent = `Inquire About ${packageName}`;
+            modalPackageName.value = packageName;
+            modalPackagePrice.value = `Rs. ${price} / plate`;
+            modalPackageGuests.value = `${guests} Visitors`;
+            packageModal.style.display = 'flex'; // Use flex to center
+        }
+
+        function closePackageModal() {
+            packageModal.style.display = 'none';
+        }
+
+        function sendPackageInquiry() {
+            const packageName = modalPackageName.value;
+            const price = modalPackagePrice.value;
+            const guests = modalPackageGuests.value;
+            const name = modalCustName.value;
+            const phone = modalCustPhone.value;
+            const eventDate = modalEventDate.value;
+
+            if (!name || !phone || !eventDate) {
+                alert("Please fill in your Name, Phone Number, and Event Date for the inquiry.");
+                return;
+            }
+
+            const whatsappMessage = `*Package Inquiry - ${packageName}*%0A%0A*Name:* ${name}%0A*Phone:* ${phone}%0A*Selected Package:* ${packageName}%0A*Price:* ${price}%0A*Guests:* ${guests}%0A*Event Date:* ${eventDate}`;
+            
+            let formattedPhone = "94705000090"; 
+            const url = `https://wa.me/${formattedPhone}?text=${whatsappMessage}`;
+            window.open(url, '_blank');
+            closePackageModal();
+        }
+
+        // 7. SHARE MODAL LOGIC
+        const shareModal = document.getElementById('shareModal');
+
+        function openShareModal() {
+            shareModal.style.display = 'flex';
+        }
+
+        function closeShareModal() {
+            shareModal.style.display = 'none';
+        }
+
+        function sharePage(platform) {
+            const pageUrl = encodeURIComponent(window.location.href);
+            const pageTitle = encodeURIComponent(document.title);
+            let shareUrl = '';
+
+            switch (platform) {
+                case 'facebook':
+                    shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${pageUrl}`;
+                    break;
+                case 'twitter':
+                    shareUrl = `https://twitter.com/intent/tweet?url=${pageUrl}&text=${pageTitle}`;
+                    break;
+                case 'whatsapp':
+                    shareUrl = `https://api.whatsapp.com/send?text=${pageTitle}%20${pageUrl}`;
+                    break;
+                case 'email':
+                    shareUrl = `mailto:?subject=${pageTitle}&body=Check out this amazing wedding venue: ${pageUrl}`;
+                    break;
+                case 'copy':
+                    navigator.clipboard.writeText(window.location.href)
+                        .then(() => alert('Link copied to clipboard!'))
+                        .catch(err => console.error('Failed to copy: ', err));
+                    closeShareModal();
+                    return; // Exit function after copy
+                default:
+                    return;
+            }
+
+            window.open(shareUrl, '_blank');
+            closeShareModal();
+        }
+
+        // Close modals if user clicks outside
+        window.onclick = function(event) {
+            if (event.target == packageModal) {
+                closePackageModal();
+            }
+            if (event.target == shareModal) {
+                closeShareModal();
+            }
+        }
+
+    </script>
+</body>
+</html>
